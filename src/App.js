@@ -1,20 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {AppBar, IconButton, Toolbar, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-// import HomeIcon from '@material-ui/icons/Home';
-// import SearchIcon from '@material-ui/icons/Search';
-// import Menu from "@material-ui/core/Menu";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import Container from "@material-ui/core/Container";
-// import AwardListPanel from "./panel/AwardListPanel";
+import HiddenMenu from "./panel/HiddenMenu";
 import PropTypes from 'prop-types';
 import Box from "@material-ui/core/Box";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import AwardListPanel from "./panel/AwardListPanel";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -61,79 +55,44 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [value, setValue] = React.useState(0);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [tabIndex, setTabIndex] = useState(0);
 
-    const handleClick = (event) => {
+    const showHiddenMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleTabChange = (event, newValue) => {
+        setTabIndex(newValue);
     };
-
-    // const currentPage = () => {
-    //     return <AwardListPanel/>
-    // };
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
-    const hiddenMenu = () => {
-        return (<Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-        >
-            <MenuItem onClick={handleClose}>自動報到</MenuItem>
-            <MenuItem onClick={handleClose}>手動報到</MenuItem>
-            <MenuItem onClick={handleClose}>兌獎管理</MenuItem>
-            <MenuItem onClick={handleClose}>抽獎管理</MenuItem>
-        </Menu>)
-    }
 
     return (
         <div>
             <AppBar position="static">
                 <Toolbar>
-                    <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" width='50%'>
+                    <Tabs value={tabIndex} onChange={handleTabChange} aria-label="simple tabs example" width='50%'>
                         <Tab label="獎項列表" icon={<HomeIcon/>} {...a11yProps(0)} />
                         <Tab label="查詢" icon={<SearchIcon/>} {...a11yProps(1)} />
                     </Tabs>
                     <Typography variant="h6" className={classes.title}/>
                     <IconButton aria-controls="simple-menu"
                                 aria-haspopup="true"
-                                onClick={handleClick}
+                                onClick={showHiddenMenu}
                                 edge="start"
                                 className={classes.menuButton}
                                 color="inherit"
                                 aria-label="menu"
                     />
-                    <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>自動報到</MenuItem>
-                        <MenuItem onClick={handleClose}>手動報到</MenuItem>
-                        <MenuItem onClick={handleClose}>兌獎管理</MenuItem>
-                        <MenuItem onClick={handleClose}>抽獎管理</MenuItem>
-                    </Menu>
-
+                    <HiddenMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl}/>
                 </Toolbar>
             </AppBar>
-            <TabPanel value={value} index={0}>
-                Item One
+            <TabPanel value={tabIndex} index={0}>
+                <AwardListPanel/>
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel value={tabIndex} index={1}>
                 Item Two
             </TabPanel>
-            <TabPanel value={value} index={2}>
+            <TabPanel value={tabIndex} index={2}>
                 Item Three
             </TabPanel>
         </div>
