@@ -1,16 +1,10 @@
 import Box from "@material-ui/core/Box";
 import {Typography} from "@material-ui/core";
 import React from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
-export default (props) => {
+const TabPanel = (props) => {
     const {children, value, index, ...other} = props;
-
-    // const propTypes = {
-    //     children: PropTypes.node,
-    //     index: PropTypes.any.isRequired,
-    //     value: PropTypes.any.isRequired,
-    // };
 
     return (<Typography
         component="div"
@@ -23,3 +17,11 @@ export default (props) => {
         {value === index && <Box p={3}>{children}</Box>}
     </Typography>)
 }
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+};
+
+export default TabPanel;
