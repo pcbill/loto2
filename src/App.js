@@ -1,35 +1,11 @@
 import React, {useState} from 'react';
 import {AppBar, IconButton, Toolbar, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-import Box from "@material-ui/core/Box";
 import ManagementMenu from "./panel/ManagementMenu";
 import AwardListPanel from "./panel/AwardListPanel";
 import SearchPanel from "./panel/SearchPanel";
 import NormalMenu from "./panel/NormalMenu";
-
-function TabPanel(props) {
-    const {children, value, index, ...other} = props;
-
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
+import TabPanel from "./panel/TabPanel";
 
 const useStyles = makeStyles((theme) => ({
     root: {
