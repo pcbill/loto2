@@ -1,19 +1,20 @@
 import React, {useState} from 'react';
-import {AppBar, IconButton, Toolbar, Typography} from '@material-ui/core';
+import {AppBar, Toolbar, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import ManagementMenu from "./panel/ManagementMenu";
+import ManagementMenu, {ManagementType} from "./panel/management/ManagementMenu";
 import AwardListPanel from "./panel/AwardListPanel";
 import SearchPanel from "./panel/SearchPanel";
 import NormalMenu from "./panel/NormalMenu";
 import TabPanel from "./panel/TabPanel";
+import AutoManagementPanel from "./panel/management/AutoManagementPanel";
+import ManualManagementPanel from "./panel/management/ManualManagementPanel";
+import GetRewardManagementPanel from "./panel/management/GetRewardManagementPanel";
+import ActionManagementPanel from "./panel/management/ActionManagementPanel";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
     },
     title: {
         flexGrow: 1,
@@ -22,8 +23,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = useState(null);
     const [tabIndex, setTabIndex] = useState(0);
+
+    const [managementPanel, setManagementPanel] = useState();
+
+    function handleManagementMenuClick(target) {
+        if (target === ManagementType.AUTO) {
+            setManagementPanel(<AutoManagementPanel/>);
+        } else if (target === ManagementType.MANUAL) {
+            setManagementPanel(<ManualManagementPanel/>);
+        } else if (target === ManagementType.GET_REWARD) {
+            setManagementPanel(<GetRewardManagementPanel/>);
+        } else if (target === ManagementType.ACTION) {
+            setManagementPanel(<ActionManagementPanel/>);
+        }
+        setTabIndex(2);
+    }
 
     return (
         <div>
@@ -31,15 +46,7 @@ export default () => {
                 <Toolbar>
                     <NormalMenu tabIndex={tabIndex} onChange={v => setTabIndex(v)}/>
                     <Typography variant="h6" className={classes.title}/>
-                    <IconButton aria-controls="simple-menu"
-                                aria-haspopup="true"
-                                onClick={e => setAnchorEl(e.currentTarget)}
-                                edge="start"
-                                className={classes.menuButton}
-                                color="inherit"
-                                aria-label="menu"
-                    />
-                    <ManagementMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl}/>
+                    <ManagementMenu onChange={v => handleManagementMenuClick(v)}/>
                 </Toolbar>
             </AppBar>
             <TabPanel value={tabIndex} index={0}>
@@ -49,7 +56,7 @@ export default () => {
                 <SearchPanel/>
             </TabPanel>
             <TabPanel value={tabIndex} index={2}>
-                Item Three
+                {managementPanel}
             </TabPanel>
         </div>
     )

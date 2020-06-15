@@ -17,9 +17,8 @@ export default (props) => {
 
     return (<div>
         <Tabs value={tabIndex}
-              onChange={(event, newValue) =>
-            onChange(newValue)}
-            aria-label="simple tabs example" width='50%'>
+              onChange={(event, newValue) => onChange(newValue)}
+              aria-label="simple tabs example" width='50%'>
             <Tab label="獎項列表" icon={<HomeIcon/>} {...a11yProps(0)} />
             <Tab label="查詢" icon={<SearchIcon/>} {...a11yProps(1)} />
         </Tabs>

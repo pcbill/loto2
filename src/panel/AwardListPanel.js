@@ -7,6 +7,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/core/styles';
+import * as FakeAward from "../test/FakeAward";
 
 const useStyles = makeStyles({
     table: {
@@ -14,14 +15,7 @@ const useStyles = makeStyles({
     },
 });
 
-function createData(gid, awardList, participantCount, reminderCount) {
-    return { gid, awardList, participantCount, reminderCount};
-}
-
-const rows = [
-    createData('A1', '小瓦掃地機器人規劃版', 3, 0),
-    createData('A1', '小瓦掃地機器人規劃版', 3, 0),
-];
+function getAwardList() { return FakeAward.rows};
 
 export default () => {
     const classes = useStyles();
@@ -40,7 +34,7 @@ export default () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
+                    {getAwardList().map((row) => (
                         <TableRow key={row.name}>
                             <TableCell component="th" scope="row">{row.gid}</TableCell>
                             <TableCell align="right">{row.awardList}</TableCell>
